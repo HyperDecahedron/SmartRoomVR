@@ -3,12 +3,17 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class HeadRaycast : MonoBehaviour
 {
-    public InteractionManager interactionManager;
+    [SerializeField] private InteractionManager interactionManager;
+    [SerializeField] private GameObject pointer;
+    [SerializeField] private LayerMask raycastMask;
+
+    [SerializeField] private Material white_mat;
+    [SerializeField] private Material blue_mat;
 
     private float maxDistance = 8f;
     private float yOffset = -0.1f;
     private LineRenderer lineRenderer;
-    private GameObject prevObject = null;
+    private Renderer pointerRenderer;
 
     private readonly Color validHitColor = new Color32(0x00, 0xFF, 0xE3, 0xFF);
     private readonly Color defaultColor = new Color32(0xFF, 0xFF, 0xFF, 150);
@@ -20,6 +25,11 @@ public class HeadRaycast : MonoBehaviour
         {
             lineRenderer.positionCount = 2;
         }
+
+        pointerRenderer = pointer.GetComponent<Renderer>();
+
+        // Ignore objects in the "Ignore Raycast" layer
+        raycastMask = ~LayerMask.GetMask("Ignore Raycast");
     }
 
     private void Update()
@@ -34,8 +44,9 @@ public class HeadRaycast : MonoBehaviour
 
         Vector3 endPoint = rayStart + rayDirection * maxDistance;
         Color currentColor = defaultColor;
+        Material currentMaterial = white_mat;
 
-        if (Physics.Raycast(rayStart, rayDirection, out RaycastHit hit, maxDistance))
+        if (Physics.Raycast(rayStart, rayDirection, out RaycastHit hit, maxDistance, raycastMask))
         {
             endPoint = hit.point;
 
@@ -44,20 +55,15 @@ public class HeadRaycast : MonoBehaviour
                 hit.collider.CompareTag("TV"))
             {
                 currentColor = validHitColor;
+                currentMaterial = blue_mat;
+            }
+        }
 
-                if (hit.collider.CompareTag("Light"))
-                    Interact_with_Light(hit.collider.gameObject);
-                else if (hit.collider.CompareTag("Drawer"))
-                    Interact_with_Drawer(hit.collider.gameObject);
-                else if (hit.collider.CompareTag("TV"))
-                    Interact_with_TV(hit.collider.gameObject);
-            }
-            else if (prevObject != null)
-            {
-                // reset outline
-                prevObject.GetComponent<Outline>().enabled = false;
-                prevObject = null;
-            }
+        // set pointer at the end of the line
+        pointer.transform.position = endPoint;
+        if (pointerRenderer != null)
+        {
+            pointerRenderer.material = currentMaterial;
         }
 
         DrawLine(rayStart, endPoint, currentColor);
@@ -72,28 +78,5 @@ public class HeadRaycast : MonoBehaviour
 
         lineRenderer.startColor = color;
         lineRenderer.endColor = color;
-    }
-
-    
-    private void Interact_with_Light(GameObject light)
-    {
-        // enable outline
-        light.GetComponent<Outline>().enabled = true;
-        prevObject = light;
-    }
-
-    private void Interact_with_Drawer(GameObject drawer)
-    {
-        // enable outline
-        GameObject drawerParent = drawer.transform.parent.parent.gameObject;
-        drawerParent.GetComponent<Outline>().enabled = true;
-        prevObject = drawerParent;
-    }
-
-    private void Interact_with_TV(GameObject tv)
-    {
-        // enable outline
-        tv.GetComponent<Outline>().enabled = true;
-        prevObject = tv;
     }
 }

@@ -2,64 +2,80 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
-    // Room objects
-    public GameObject tv;
+    public GameObject current_object = null;
 
-    private float cooldownTime = 0.5f;
+    private AudioSource audio; 
 
-    private float lastTVTime = -Mathf.Infinity;
-    private float lastLightTime = -Mathf.Infinity;
-    private float lastDrawerTime = -Mathf.Infinity;
+    private void Start()
+    {
+        audio = GetComponent<AudioSource>(); 
+    }
+
+    public void SelectObject()
+    {
+        if (current_object != null)
+        {
+            if(current_object.tag == "Light")
+            {
+                SetLight();
+            }
+            else if (current_object.tag == "TV")
+            {
+                SetTV();
+            }
+            else if(current_object.tag == "Drawer")
+            {
+                SetDrawer();
+            }
+        }
+    }
 
     public void SetTV()
     {
-        // Cooldown check
-        if (Time.time < lastTVTime + cooldownTime)
+        if (current_object == null || current_object.transform.childCount == 0)
             return;
 
-        lastTVTime = Time.time;
-
-        if (tv == null || tv.transform.childCount == 0)
-            return;
-
-        GameObject firstChild = tv.transform.GetChild(0).gameObject;
+        GameObject firstChild = current_object.transform.GetChild(0).gameObject;
         firstChild.SetActive(!firstChild.activeSelf);
+
+        if (audio != null) {
+            audio.Play();
+        }
     }
 
-    public void SetLight(GameObject detected_lamp)
+    public void SetLight()
     {
-        // Cooldown check
-        if (Time.time < lastLightTime + cooldownTime)
+        if (current_object == null || current_object.transform.childCount == 0)
             return;
 
-        lastLightTime = Time.time;
-
-        if (detected_lamp == null || detected_lamp.transform.childCount == 0)
-            return;
-
-        GameObject firstChild = detected_lamp.transform.GetChild(0).gameObject;
+        Debug.Log("called set light");
+        GameObject firstChild = current_object.transform.GetChild(0).gameObject;
         firstChild.SetActive(!firstChild.activeSelf);
+
+        if (audio != null)
+        {
+            audio.Play();
+        }
     }
 
-    public void SetDrawer(GameObject detected_drawer)
+    public void SetDrawer()
     {
-        // Cooldown check
-        if (Time.time < lastDrawerTime + cooldownTime)
+        if (current_object == null)
             return;
 
-        lastDrawerTime = Time.time;
+        GameObject parent = current_object.transform.parent.gameObject;
 
-        if (detected_drawer == null || detected_drawer.transform.childCount == 0)
-            return;
-
-        GameObject firstChild = detected_drawer.transform.GetChild(0).gameObject;
-
-        Animator animator = firstChild.GetComponent<Animator>();
+        Animator animator = parent.GetComponent<Animator>();
         if (animator == null)
             return;
 
         // Get current value and toggle it
         bool isOpen = animator.GetBool("IsOpen");
         animator.SetBool("IsOpen", !isOpen);
+
+        if (audio != null)
+        {
+            audio.Play();
+        }
     }
 }

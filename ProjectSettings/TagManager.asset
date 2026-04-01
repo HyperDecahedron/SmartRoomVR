@@ -7,6 +7,8 @@ TagManager:
   - Light
   - Drawer
   - TV
+  - Pointer
+  - InteractionManager
   layers:
   - Default
   - TransparentFX
