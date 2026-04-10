@@ -1948,6 +1948,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1702940910}
   - component: {fileID: 1702940909}
+  - component: {fileID: 1702940912}
   - component: {fileID: 1702940911}
   m_Layer: 0
   m_Name: InteractionManager
@@ -2081,6 +2082,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1702940912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702940908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25fc039695532a44cae37f445bf33d5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TongueInterface
+  press_threshold: 50
+  triggerCooldown: 1
+  currentJitter: 0
+  currentPressure: 000000000000000000000000
 --- !u!1 &1855684799
 GameObject:
   m_ObjectHideFlags: 0
@@ -10602,8 +10619,8 @@ SceneRoots:
   - {fileID: 1592757824}
   - {fileID: 135420025}
   - {fileID: 832575519}
-  - {fileID: 1702940910}
   - {fileID: 847666186}
+  - {fileID: 1702940910}
   - {fileID: 521789706}
   - {fileID: 1047207458}
   - {fileID: 947480343}
