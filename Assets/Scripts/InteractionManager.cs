@@ -1,4 +1,5 @@
 using UnityEngine;
+using DoorScript;
 
 public class InteractionManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class InteractionManager : MonoBehaviour
 
     private void Start()
     {
-        audio = GetComponent<AudioSource>(); 
+        audio = GetComponent<AudioSource>();
     }
 
     public void SelectObject()
@@ -26,6 +27,10 @@ public class InteractionManager : MonoBehaviour
             else if(current_object.tag == "Drawer")
             {
                 SetDrawer();
+            }
+            else if (current_object.tag == "Door")
+            {
+                SetDoor();
             }
         }
     }
@@ -72,6 +77,20 @@ public class InteractionManager : MonoBehaviour
         // Get current value and toggle it
         bool isOpen = animator.GetBool("IsOpen");
         animator.SetBool("IsOpen", !isOpen);
+
+        if (audio != null)
+        {
+            audio.Play();
+        }
+    }
+
+    public void SetDoor()
+    {
+        if (current_object == null)
+            return;
+
+        DoorScript.Door door_component = current_object.GetComponent<DoorScript.Door>();
+        door_component.open = !door_component.open;
 
         if (audio != null)
         {
