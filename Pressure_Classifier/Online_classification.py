@@ -242,11 +242,8 @@ def classification_loop():
                         window[:, i] = (window[:, i] - mean) / std
 
             # Jittering detection
-            jittering = np.max(np.abs(window)) / MAX_JITTERING # absolute values because the signal is bipolar
             jitter_init = jitter
             jitter = jitter/JITTER_NOMALIZATION
-            #print(jittering)
-            #print(jittering, jitter)
             print(jitter_init, " + ", jitter)
 
             # Extract features
@@ -266,7 +263,7 @@ def classification_loop():
             # Print filtered/final predictions
             print(f"--Filtered Pressure prediction: {filtered_pressure}")
 
-            # Send filtered pressure to Unity as a string like: "jittering,pressure", "37,50,0,0"
+            # Send filtered pressure to Unity as a string like: "jitter,pressure", "37,50,0,0"
             pressure_values = [int(p) for p in filtered_pressure]  
             message = f"{jitter},{pressure_values[0]},{pressure_values[1]},{pressure_values[2]}"
             try:

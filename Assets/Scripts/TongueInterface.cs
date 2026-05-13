@@ -69,6 +69,8 @@ public class TongueInterface : MonoBehaviour
 
                 string[] parts = message.Split(',');
 
+                //Debug.Log(message);
+
                 if (parts.Length == 4)
                 {
                     float jitter = float.Parse(parts[0], CultureInfo.InvariantCulture);
