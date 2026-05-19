@@ -48,11 +48,20 @@ all_windowed_data = []
 # File paths
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-emg_dir = os.path.join(
+recordings_dir = os.path.join(
     base_dir,
     "OpenBCI_Data",
-    f"Pressure_data_user_{user}.csv"
+    f"Recordings{user}"
 )
+
+items = os.listdir(recordings_dir)
+
+if not items:
+    raise FileNotFoundError(f"Nothing found inside {recordings_dir}")
+
+recording_name = items[0]
+
+emg_dir = os.path.join(recordings_dir, recording_name)
 
 timestamp_dir = os.path.join(
     base_dir,

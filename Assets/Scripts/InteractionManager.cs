@@ -1,9 +1,10 @@
 using UnityEngine;
 using DoorScript;
+using System;
 
 public class InteractionManager : MonoBehaviour
 {
-    public GameObject current_object = null;
+    [NonSerialized] public GameObject current_object = null;
 
     private AudioSource audio; 
 

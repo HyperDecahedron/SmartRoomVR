@@ -52,7 +52,8 @@ public class HeadRaycast : MonoBehaviour
 
             if (hit.collider.CompareTag("Light") ||
                 hit.collider.CompareTag("Drawer") ||
-                hit.collider.CompareTag("TV"))
+                hit.collider.CompareTag("TV") ||
+                hit.collider.CompareTag("Door"))
             {
                 currentColor = validHitColor;
                 currentMaterial = blue_mat;

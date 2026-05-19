@@ -69,7 +69,7 @@ public class TongueInterface : MonoBehaviour
 
                 string[] parts = message.Split(',');
 
-                //Debug.Log(message);
+                Debug.Log(message);
 
                 if (parts.Length == 4)
                 {

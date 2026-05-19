@@ -18,7 +18,7 @@ import os
 if len(sys.argv) < 3:
     raise ValueError("Expected arguments: <ip> <user>")
 
-UNITY_IP = sys.argv[1] # pc: 127.0.0.1
+UNITY_IP = sys.argv[1] 
 user = sys.argv[2]
 
 JITTER_NOMALIZATION = 0.9         # <1 to increase the max, >1 to decrease the max
@@ -207,7 +207,8 @@ def classification_loop():
 
     while True:
         new_data = get_data1()
-        jitter = get_data2()
+        #jitter = get_data2()
+        jitter = 0.0
 
         if not new_data:
             time.sleep(0.1)
@@ -244,7 +245,7 @@ def classification_loop():
             # Jittering detection
             jitter_init = jitter
             jitter = jitter/JITTER_NOMALIZATION
-            print(jitter_init, " + ", jitter)
+            #print(jitter_init, " + ", jitter)
 
             # Extract features
             feats = extract_features(window)

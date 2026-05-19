@@ -11,7 +11,7 @@ import signal
 # -------------------- Configuration
 SAVE_DIR = "timestamps"
 LABELS = ["l0", "l50", "l100", "f0", "f50", "f100", "r0", "r50", "r100"]
-SAMPLES_PER_LABEL = 1
+SAMPLES_PER_LABEL = 1      # how many samples per label will be recorded
 TIME_BETWEEN_SAMPLES = 1.5  # seconds
 LABEL_DISPLAY = {
     "l0": "Resting position",
@@ -41,6 +41,7 @@ class TrainingApp:
         self.waiting_for_space = False
         self.waiting_to_train = False
         self.training_in_progress = False
+        self.waiting_for_ip_setup = False
 
         os.makedirs(SAVE_DIR, exist_ok=True)
 
@@ -177,6 +178,17 @@ class TrainingApp:
             self.waiting_to_train = False
             self.start_model_training()
 
+        elif self.waiting_for_ip_setup:
+            self.waiting_for_ip_setup = False
+
+            self.set_text(
+                "Set the Quest IP",
+                "Enter the Quest IP to start online classification.",
+                color="black"
+            )
+
+            self.root.after(100, self.ask_IP)
+
 
     def save_data(self):
         with open(self.save_path, 'w', newline='') as f:
@@ -223,13 +235,13 @@ class TrainingApp:
 
     def training_finished(self):
         self.training_in_progress = False
+        self.waiting_for_ip_setup = True
+
         self.set_text(
-            "Training finished",
-            "The model has been trained successfully.\n\nEnter the Quest IP to start online classification.",
+            "Now, start the OpenBCI session with UDP",
+            "Press SPACEBAR to continue.",
             color="black"
         )
-
-        self.root.after(100, self.ask_IP)
 
     def training_failed(self, error_message):
         self.training_in_progress = False
