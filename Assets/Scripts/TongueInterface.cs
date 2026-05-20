@@ -14,8 +14,8 @@ public class TongueInterface : MonoBehaviour
     private bool isRunning = true;
     private InteractionManager interactionManager;
 
-    public int press_threshold = 50;
-    public float triggerCooldown = 1f;
+    public int press_threshold = 45;
+    public float triggerCooldown = 3f;
 
     public float currentJitter = 0f;
     public int[] currentPressure = new int[3];

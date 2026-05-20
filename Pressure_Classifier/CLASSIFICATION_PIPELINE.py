@@ -11,7 +11,7 @@ import signal
 # -------------------- Configuration
 SAVE_DIR = "timestamps"
 LABELS = ["l0", "l50", "l100", "f0", "f50", "f100", "r0", "r50", "r100"]
-SAMPLES_PER_LABEL = 1      # how many samples per label will be recorded
+SAMPLES_PER_LABEL = 10      # how many samples per label will be recorded
 TIME_BETWEEN_SAMPLES = 1.5  # seconds
 LABEL_DISPLAY = {
     "l0": "Resting position",
