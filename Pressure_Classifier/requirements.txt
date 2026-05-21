@@ -1,0 +1,9 @@
+pandas
+numpy
+matplotlib
+scipy
+pykalman
+PyWavelets
+scikit-learn
+joblib
+requests
