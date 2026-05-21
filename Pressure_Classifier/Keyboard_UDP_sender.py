@@ -1,6 +1,6 @@
 import socket
 
-UNITY_IP = "10.26.30.182"  # pc: 127.0.0.1, quest: 10.173.32.182
+UNITY_IP = "192.168.31.143"  # pc: 127.0.0.1, quest: 10.173.32.182
 UNITY_PORT = 5052
 
 # Map numpad keys to messages

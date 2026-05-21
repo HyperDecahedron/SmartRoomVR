@@ -14,13 +14,15 @@ public class TongueInterface : MonoBehaviour
     private bool isRunning = true;
     private InteractionManager interactionManager;
 
-    public int press_threshold = 45;
+    public int press_threshold = 50;
     public float triggerCooldown = 3f;
 
     public float currentJitter = 0f;
     public int[] currentPressure = new int[3];
 
     private float lastTriggerTime = -999f;
+
+    private bool over_th = false; 
 
     public struct UdpData
     {
@@ -115,18 +117,21 @@ public class TongueInterface : MonoBehaviour
 
             bool cooldownFinished = Time.time >= lastTriggerTime + triggerCooldown;
 
-            if (pressureOverThreshold && cooldownFinished)
+            if (pressureOverThreshold && cooldownFinished && !over_th)
             {
                 if (interactionManager != null)
                 {
                     interactionManager.SelectObject();
                     lastTriggerTime = Time.time;
+                    over_th = true; 
                 }
                 else
                 {
                     Debug.LogWarning("InteractionManager is not assigned.");
                 }
             }
+
+            over_th = pressureOverThreshold;
         }
     }
 
