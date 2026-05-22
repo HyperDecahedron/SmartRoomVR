@@ -13,8 +13,6 @@ public class ChangeTV : MonoBehaviour
         objectRenderer = GetComponent<Renderer>();
         objectRenderer.material.mainTexture = texture1;
 
-        gameObject.SetActive(false);
-
         // Repeat the texture change every 2 seconds
         InvokeRepeating(nameof(ChangeTexture), 2f, 2f);
     }

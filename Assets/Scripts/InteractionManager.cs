@@ -38,9 +38,9 @@ public class InteractionManager : MonoBehaviour
 
     public void SetTV()
     {
-        if (current_object == null || current_object.transform.childCount == 0)
+        if (current_object == null)
             return;
-
+            
         GameObject firstChild = current_object.transform.GetChild(0).gameObject;
         firstChild.SetActive(!firstChild.activeSelf);
 
